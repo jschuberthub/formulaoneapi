@@ -1,5 +1,6 @@
 <?php
 
+// Command to import drivers from OpenF1 API using minimal driver fields
 namespace App\Console\Commands;
 
 use App\Models\Driver;
@@ -17,33 +18,23 @@ class ImportDrivers extends Command
         $drivers = $response->json();
 
         foreach ($drivers as $driver) {
-
-            dump($driver);
-
             if (!isset($driver['driver_number']) || empty($driver['driver_number'])) {
                 continue;
             }
-
             Driver::updateOrCreate(
                 ['driver_number' => $driver['driver_number']],
                 [
-                    'driver_number' => $driver['driver_number'],  // <--- Wichtig!
-                    'broadcast_name' => $driver['broadcast_name'] ?? '',
-                    'country_code' => $driver['country_code'] ?? '',
+                    'driver_number' => $driver['driver_number'],
                     'first_name' => $driver['first_name'] ?? '',
                     'last_name' => $driver['last_name'] ?? '',
                     'full_name' => $driver['full_name'] ?? '',
                     'name_acronym' => $driver['name_acronym'] ?? '',
-                    'headshot_url' => $driver['headshot_url'] ?? '',
-                    'team_colour' => $driver['team_colour'] ?? '',
                     'team_name' => $driver['team_name'] ?? '',
-                    'meeting_key' => $driver['meeting_key'] ?? 0,
-                    'session_key' => $driver['session_key'] ?? 0,
+                    'headshot_url' => $driver['headshot_url'] ?? '',
                 ]
             );
         }
 
         $this->info('Drivers imported successfully!');
     }
-
 }

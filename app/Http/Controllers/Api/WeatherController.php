@@ -22,10 +22,10 @@ class WeatherController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'weather_id' => 'required|integer|unique:weathers',
-            'meeting_id' => 'required|integer|exists:meetings,meeting_id',
+            'weather_id' => 'required|integer|unique:weather',
+            'meeting_key' => 'required|integer|exists:meetings,meeting_key',
             'session_key' => 'nullable|string',
-            'time' => 'nullable|string',
+            'date' => 'required|date',
             'air_temperature' => 'nullable|numeric',
             'humidity' => 'nullable|numeric',
             'pressure' => 'nullable|numeric',
@@ -56,9 +56,9 @@ class WeatherController extends Controller
         $weather = Weather::findOrFail($id);
 
         $data = $request->validate([
-            'meeting_id' => 'nullable|integer|exists:meetings,meeting_id',
+            'meeting_key' => 'nullable|integer|exists:meetings,meeting_key',
             'session_key' => 'nullable|string',
-            'time' => 'nullable|string',
+            'date' => 'sometimes|required|date',
             'air_temperature' => 'nullable|numeric',
             'humidity' => 'nullable|numeric',
             'pressure' => 'nullable|numeric',

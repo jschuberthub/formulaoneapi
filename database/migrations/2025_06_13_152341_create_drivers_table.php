@@ -11,20 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('drivers');
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
             $table->integer('driver_number')->unique();
-            $table->string('broadcast_name');
-            $table->string('country_code');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('full_name');
             $table->string('name_acronym');
-            $table->string('headshot_url');
-            $table->string('team_colour');
             $table->string('team_name');
-            $table->integer('meeting_key');
-            $table->integer('session_key');
+            $table->string('headshot_url')->nullable();
             $table->timestamps();
         });
     }
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('openf1_drivers');
+        Schema::dropIfExists('drivers');
     }
 };

@@ -23,7 +23,7 @@ class TeamRadioController extends Controller
     {
         $data = $request->validate([
             'team_radio_id' => 'required|integer|unique:team_radios',
-            'meeting_id' => 'required|integer|exists:meetings,meeting_id',
+            'meeting_id' => 'required|integer|exists:meetings,meeting_key',
             'session_key' => 'nullable|string',
             'lap_number' => 'nullable|integer',
             'driver_number' => 'nullable|integer',
@@ -53,7 +53,7 @@ class TeamRadioController extends Controller
         $teamRadio = TeamRadio::findOrFail($id);
 
         $data = $request->validate([
-            'meeting_id' => 'nullable|integer|exists:meetings,meeting_id',
+            'meeting_id' => 'nullable|integer|exists:meetings,meeting_key',
             'session_key' => 'nullable|string',
             'lap_number' => 'nullable|integer',
             'driver_number' => 'nullable|integer',

@@ -1,5 +1,6 @@
 <?php
 
+// Controller for CRUD operations on minimal Driver model
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -22,14 +23,13 @@ class DriverController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'driver_id' => 'required|integer|unique:drivers',
-            'permanent_number' => 'nullable|string',
-            'code' => 'nullable|string',
-            'given_name' => 'nullable|string',
-            'family_name' => 'nullable|string',
-            'date_of_birth' => 'nullable|date',
-            'nationality' => 'nullable|string',
-            'url' => 'nullable|url',
+            'driver_number' => 'required|integer|unique:drivers',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'full_name' => 'required|string',
+            'name_acronym' => 'required|string',
+            'team_name' => 'required|string',
+            'headshot_url' => 'nullable|string',
         ]);
 
         $driver = Driver::create($data);
@@ -53,13 +53,13 @@ class DriverController extends Controller
         $driver = Driver::findOrFail($id);
 
         $data = $request->validate([
-            'permanent_number' => 'nullable|string',
-            'code' => 'nullable|string',
-            'given_name' => 'nullable|string',
-            'family_name' => 'nullable|string',
-            'date_of_birth' => 'nullable|date',
-            'nationality' => 'nullable|string',
-            'url' => 'nullable|url',
+            'driver_number' => 'sometimes|required|integer|unique:drivers,driver_number,' . $id,
+            'first_name' => 'sometimes|required|string',
+            'last_name' => 'sometimes|required|string',
+            'full_name' => 'sometimes|required|string',
+            'name_acronym' => 'sometimes|required|string',
+            'team_name' => 'sometimes|required|string',
+            'headshot_url' => 'nullable|string',
         ]);
 
         $driver->update($data);

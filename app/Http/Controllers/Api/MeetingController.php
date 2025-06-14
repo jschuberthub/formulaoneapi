@@ -22,11 +22,18 @@ class MeetingController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'meeting_id' => 'required|integer|unique:meetings',
-            'year' => 'nullable|integer',
-            'url' => 'nullable|url',
-            'name' => 'nullable|string',
-            'date' => 'nullable|date',
+            'meeting_key' => 'required|integer|unique:meetings',
+            'meeting_name' => 'required|string',
+            'meeting_official_name' => 'nullable|string',
+            'circuit_short_name' => 'nullable|string',
+            'country_code' => 'required|string',
+            'country_name' => 'required|string',
+            'location' => 'nullable|string',
+            'circuit_key' => 'required|integer',
+            'country_key' => 'required|integer',
+            'date_start' => 'required|date',
+            'gmt_offset' => 'nullable|string',
+            'year' => 'required|integer',
         ]);
 
         $meeting = Meeting::create($data);
@@ -50,10 +57,18 @@ class MeetingController extends Controller
         $meeting = Meeting::findOrFail($id);
 
         $data = $request->validate([
+            'meeting_key' => 'sometimes|integer|unique:meetings,meeting_key,' . $id,
+            'meeting_name' => 'nullable|string',
+            'meeting_official_name' => 'nullable|string',
+            'circuit_short_name' => 'nullable|string',
+            'country_code' => 'nullable|string',
+            'country_name' => 'nullable|string',
+            'location' => 'nullable|string',
+            'circuit_key' => 'nullable|integer',
+            'country_key' => 'nullable|integer',
+            'date_start' => 'nullable|date',
+            'gmt_offset' => 'nullable|string',
             'year' => 'nullable|integer',
-            'url' => 'nullable|url',
-            'name' => 'nullable|string',
-            'date' => 'nullable|date',
         ]);
 
         $meeting->update($data);
